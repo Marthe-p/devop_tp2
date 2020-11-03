@@ -1,27 +1,26 @@
-language: java
-
 script:
-  - mvn clean verify --file simple-api/pom.xml org.jacoco:jacoco-maven-plugin:prepare-agent install
-  sonar:sonar -Dsonar.projectKey=Marthe-p_devop_tp2
+  - cd ./simple-api/
+  - mvn clean verify org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=Marthe-p_devop_tp2
+  - cd ..
 
-  #Connexion à Docker
   - docker login -u $dockerhub_id -p $dockerhub_pwd
   - docker build -t $dockerhub_id/devop_tp2-main_database database
   - docker build -t $dockerhub_id/devop_tp2-main_httpd httpd
   - docker build -t $dockerhub_id/devop_tp2-main_simple-api simple-api
-  #Publication des image
+
+  # Publication des images
   - docker push $dockerhub_id/devop_tp2-main_database
   - docker push $dockerhub_id/devop_tp2-main_httpd
   - docker push $dockerhub_id/devop_tp2-main_simple-api
 
 cache:
-  - $HOME/.m2
+  directories:
+    - $HOME/.m2
 
 services:
   - docker
 
-
 addons:
   sonarcloud:
-    organization: "Marthe-p"
+    organization: "marthe-p"
     token: $sonarcloud_token
