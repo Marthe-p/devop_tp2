@@ -1,5 +1,18 @@
-
 language: java
 script:
+  # Test and build your app with docker
   - cd ./simple-api
   - mvn clean verify
+
+  # Connexion à Docker
+  - docker login -u $dockerhub_id -p $dockerhub_pwd
+
+  # Publication des images
+  - docker push marthemouah/devop_tp2-main_database
+  - docker push marthemouah/devop_tp2-main_httpd
+  - docker push marthemouah/devop_tp2-main_simple-api
+  cache:
+  directories:
+    - $HOME/.m2
+  services:
+    - docker
