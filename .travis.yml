@@ -1,17 +1,13 @@
 language: java
 script:
-  # Test and build your app with docker
   - mvn clean verify --file ./simple-api/pom.xml
 
-  # Connexion à Docker
   - docker login -u $dockerhub_id -p $dockerhub_pwd
 
-  # Build
   - docker build -t marthemouah/devop_tp2-main_database database
   - docker build -t marthemouah/devop_tp2-main_httpd httpd
   - docker build -t marthemouah/devop_tp2-main_simple-api simple-api
 
-  # Publication des images
   - docker push marthemouah/devop_tp2-main_database
   - docker push marthemouah/devop_tp2-main_httpd
   - docker push marthemouah/devop_tp2-main_simple-api
