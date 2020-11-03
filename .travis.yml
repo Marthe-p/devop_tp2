@@ -3,7 +3,7 @@ script:
   # Test and build your app with docker
   - mvn clean verify --file ./simple-api/pom.xml
 
-  # Connexion à Docke
+  # Connexion à Docker
   - docker login -u $dockerhub_id -p $dockerhub_pwd
 
   # Build
