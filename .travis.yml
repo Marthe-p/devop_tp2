@@ -14,7 +14,7 @@ script:
   - docker push marthemouah/devop_tp2-main_simple-api
 
 cache:
-  -$HOME/.m2
+  - $HOME/.m2
 
 services:
-  -docker
+  - docker
