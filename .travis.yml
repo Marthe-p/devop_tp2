@@ -4,14 +4,14 @@ script:
   - mvn clean verify --file simple-api/pom.xml
 
   #Connexion à Docker
-  - docker login -u $login -p $mdp
-  - docker built -t raudut/Docker-tp-2-main_database database
-  - docker built -t raudut/Docker-tp-2-main_httpd httpd
-  - docker built -t raudut/Docker-tp-2-main_simple-api simple-api
+  - docker login -u $dockerhub_id -p $dockerhub_pwd
+  - docker built -t marthemouah/devop_tp2-main_database database
+  - docker built -t marthemouah/devop_tp2-main_httpd httpd
+  - docker built -t marthemouah/devop_tp2-main_simple-api simple-api
   #Publication des images
-  - docker push raudut/Docker-tp-2-main_database
-  - docker push raudut/Docker-tp-2-main_httpd
-  - docker push raudut/Docker-tp-2-main_simple-api
+  - docker push marthemouah/devop_tp2-main_database
+  - docker push marthemouah/devop_tp2-main_httpd
+  - docker push marthemouah/devop_tp2-main_simple-api
 
 cache:
   -$HOME/.m2
