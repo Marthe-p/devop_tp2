@@ -18,7 +18,7 @@ jobs:
         - docker build -t $dockerhub_id/devop_tp2-main_database database
         - docker build -t $dockerhub_id/devop_tp2-main_httpd httpd
         - docker build -t $dockerhub_id/devop_tp2-main_simple-api simple-api
-
+      if: branch = dev
 
     - stages: push
       name: push
@@ -26,7 +26,7 @@ jobs:
         - docker push $dockerhub_id/devop_tp2-main_database
         - docker push $dockerhub_id/devop_tp2-main_httpd
         - docker push $dockerhub_id/devop_tp2-main_simple-api
-
+      if: branch = main
 cache:
   directories:
     - $HOME/.m2
