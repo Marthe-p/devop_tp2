@@ -1,18 +1,24 @@
 language: java
-script:
-  #Test and build your app with docker
-  - mvn clean verify --file simple-api/pom.xml org.jacoco:jacoco-maven-plugin:prepare-agent install
-    sonar:sonar -Dsonar.projectKey=devop_tp2
+jobs:
+  include:
+    - stage: test
+    script: mvn clean verify org.jacoco:jacoco-maven-plugin:prepare-agent install
+        sonar:sonar -Dsonar.projectKey=devop_tp2
+    - stage: test
+     script: docker login -u $dockerhub_id -p $dockerhub_pwd
+    - stage: test
+     script: docker build -t $dockerhub_id/devop_tp2-main_database database
+    - stage: test
+     script: docker build -t $dockerhub_id/devop_tp2-main_httpd httpd
+    - stage: test
+     script: docker build -t $dockerhub_id/devop_tp2-main_simple-api simple-api
 
-  #Connexion à Docker
-  - docker login -u $dockerhub_id -p $dockerhub_pwd
-  - docker build -t $dockerhub_id/devop_tp2-main_database database
-  - docker build -t $dockerhub_id/devop_tp2-main_httpd httpd
-  - docker build -t $dockerhub_id/devop_tp2-main_simple-api simple-api
-  #Publication des image
-  - docker push $dockerhub_id/devop_tp2-main_database
-  - docker push $dockerhub_id/devop_tp2-main_httpd
-  - docker push $dockerhub_id/devop_tp2-main_simple-api
+    - stage: publish
+     script: docker push $dockerhub_id/devop_tp2-main_database
+    - stage: publish
+     script: docker push $dockerhub_id/devop_tp2-main_httpd
+    - stage: publish
+     script: docker push $dockerhub_id/devop_tp2-main_simple-api
 
 cache:
   - $HOME/.m2
