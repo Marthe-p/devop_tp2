@@ -1,18 +1,20 @@
 language: java
 script:
-  - mvn clean verify --file ./simple-api/pom.xml
+  #Test and build your app with docker
+  - mvn clean verify --file simple-api/pom.xml
 
-  - docker login -u $dockerhub_id -p $dockerhub_pwd
+  #Connexion à Docker
+  - docker login -u $login -p $mdp
+  - docker built -t raudut/Docker-tp-2-main_database database
+  - docker built -t raudut/Docker-tp-2-main_httpd httpd
+  - docker built -t raudut/Docker-tp-2-main_simple-api simple-api
+  #Publication des images
+  - docker push raudut/Docker-tp-2-main_database
+  - docker push raudut/Docker-tp-2-main_httpd
+  - docker push raudut/Docker-tp-2-main_simple-api
 
-  - docker build -t marthemouah/devop_tp2-main_database database
-  - docker build -t marthemouah/devop_tp2-main_httpd httpd
-  - docker build -t marthemouah/devop_tp2-main_simple-api simple-api
+cache:
+  -$HOME/.m2
 
-  - docker push marthemouah/devop_tp2-main_database
-  - docker push marthemouah/devop_tp2-main_httpd
-  - docker push marthemouah/devop_tp2-main_simple-api
-  cache:
-  directories:
-    - $HOME/.m2
-  services:
-    - docker
+services:
+  -docker
