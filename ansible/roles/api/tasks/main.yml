@@ -1,2 +1,12 @@
----
-# tasks file for roles/api
+- name: App container
+  docker_container:
+    name: backend
+    image: marthemouah/devop_tp2-main_simple-api
+    state: started
+    networks:
+      - name: app-network
+
+    env:
+      SPRING_DATASOURCE_PASSWORD: "{{ db_password }}"
+      SPRING_DATASOURCE_USER: "{{ db_user }}"
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/db
