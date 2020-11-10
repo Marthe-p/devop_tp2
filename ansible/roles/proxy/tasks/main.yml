@@ -3,6 +3,7 @@
     name: reverse_proxy
     image: marthemouah/devop_tp2-main_httpd
     state: started
+    pull: yes
     networks:
       - name: app-network
     ports:
