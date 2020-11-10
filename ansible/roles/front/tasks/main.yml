@@ -1,0 +1,13 @@
+---
+# tasks file for roles/front
+- name: Front
+  docker_container:
+      name: front
+      image: marthemouah/front
+      state: started
+      networks:
+       - name: app-network
+      ports:
+       - "8080:8080"
+      env:
+        VUE_APP_API_URL: localhost:8080
